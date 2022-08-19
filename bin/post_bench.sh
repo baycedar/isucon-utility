@@ -46,22 +46,16 @@ fi
 
 # clear old analysis results
 echo "remove old analysis results"
-rm -rf ${WORKSPACE}/bottleneck_analysis/*
+rm -rf ${WORKSPACE}/bottleneck_analysis/*.txt
 
 # create UDF to analyze DB bottleneck
 echo "analyze DB bottleneck"
-psql -h ${DB_HOST} -p ${PGPORT} -U ${PGUSER} -d ${DB_NAME} \
-  -f "${WORKSPACE}/conf/bottleneck_analysis/udf_analyze_slow_queries.sql"
-# analyze slow queries
-psql -h ${DB_HOST} -p ${PGPORT} -U ${PGUSER} -d ${DB_NAME} \
-  -f "${WORKSPACE}/conf/bottleneck_analysis/analyze_queries.sql" \
-  > ${WORKSPACE}/bottleneck_analysis/db_summary.txt
+${WORKSPACE}/bin/component/analyze_mysql.sh
+#${WORKSPACE}/bin/component/analyze_postgresql.sh
 
 # analyze app
 echo "analyze App bottleneck"
-ssh ${WEB_HOST} cat ${NGINX_LOG_PATH} \
-  | kataribe -f "${WORKSPACE}/conf/bottleneck_analysis/kataribe.toml" \
-  > ${WORKSPACE}/bottleneck_analysis/nginx_summary.txt
+${WORKSPACE}/bin/component/analyze_app.sh
 
 # push analysis results
 echo "push analysis results to ${GIT_BRANCH}"

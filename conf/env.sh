@@ -40,5 +40,5 @@ PG_HBA_PATH="${PG_CONF_DIR}/pg_hba.conf"
 # MySQL file settings
 MYSQL_LOG_PATH="/var/log/mysql/slow_query.log"
 MYSQL_CONF_DIR="/etc/mysql"
-MYSQL_OVERRIDE_CONF_FILE="mysql.conf"
+MYSQL_OVERRIDE_CONF_FILE="override.conf"
 MYSQL_OVERRIDE_CONF_PATH="${MYSQL_CONF_DIR}/conf.d/${MYSQL_OVERRIDE_CONF_FILE}"
